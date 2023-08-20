@@ -10,7 +10,7 @@
 
 
 #web_bg {
-    background-image: url("../img/banner.jpg"),
+    background-image: url("https://nbviewer.org/github/Liooser/Liooser.github.io/blob/main/images/index/banner.jpg"),
         linear-gradient(60deg, rgba(255, 165, 150, 0.5) 5%, rgba(0, 228, 255, 0.35))
 }
 
