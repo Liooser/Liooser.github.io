@@ -1,0 +1,489 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>day10 - static、继承、单例、代码块 | Liooser's Blog</title><meta name="author" content="Liooser"><meta name="copyright" content="Liooser"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="day11.面向对象进阶1.静态关键字：static1.1static的作用、修饰成员变量的用法static关键字的作用  static是静态的意思，可以修饰成员变量和成员方法。  static修饰成员变量表示该成员变量只在内存中只存储一份，可以被共享访问、修改。   成员变量可以分为2类  静态成员变量（有static修饰，属于类，内存中加载一次）: 常表示如在线人数信息、等需要被共享的信息，可">
+<meta property="og:type" content="article">
+<meta property="og:title" content="day10 - static、继承、单例、代码块">
+<meta property="og:url" content="https://liooser.github.io/post/b149836c.html">
+<meta property="og:site_name" content="Liooser&#39;s Blog">
+<meta property="og:description" content="day11.面向对象进阶1.静态关键字：static1.1static的作用、修饰成员变量的用法static关键字的作用  static是静态的意思，可以修饰成员变量和成员方法。  static修饰成员变量表示该成员变量只在内存中只存储一份，可以被共享访问、修改。   成员变量可以分为2类  静态成员变量（有static修饰，属于类，内存中加载一次）: 常表示如在线人数信息、等需要被共享的信息，可">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/Liooser/Liooser.github.io/main/images/index/top_1.jpg">
+<meta property="article:published_time" content="2022-10-21T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-08-22T07:55:23.509Z">
+<meta property="article:author" content="Liooser">
+<meta property="article:tag" content="java,面向对象进阶,static，单例，代码块，继承">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Liooser/Liooser.github.io/main/images/index/top_1.jpg"><link rel="shortcut icon" href="https://raw.githubusercontent.com/Liooser/Liooser.github.io/main/images/index/a2.png"><link rel="canonical"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"top-right"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'day10 - static、继承、单例、代码块',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-08-22 15:55:23'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://raw.githubusercontent.com/Liooser/Liooser.github.io/main/images/index/5.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/timeline/"><i class="fa-fw fa fa-bell"></i><span> 日志</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 菜单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/%E5%85%B3%E4%BA%8E"><i class="fa-fw /about/"></i><span> 0</span></a></li><li><a class="site-page child" href="/myself"><i class="fa-fw /myself/"></i><span> 1</span></a></li><li><a class="site-page child" href="/butterfly%E4%B8%BB%E9%A2%98"><i class="fa-fw https://github.com/jerryc127/hexo-theme-butterfly/"></i><span> 2</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://raw.githubusercontent.com/Liooser/Liooser.github.io/main/images/index/top_1.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Liooser's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/timeline/"><i class="fa-fw fa fa-bell"></i><span> 日志</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 菜单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/%E5%85%B3%E4%BA%8E"><i class="fa-fw /about/"></i><span> 0</span></a></li><li><a class="site-page child" href="/myself"><i class="fa-fw /myself/"></i><span> 1</span></a></li><li><a class="site-page child" href="/butterfly%E4%B8%BB%E9%A2%98"><i class="fa-fw https://github.com/jerryc127/hexo-theme-butterfly/"></i><span> 2</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">day10 - static、继承、单例、代码块</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-10-21T16:00:00.000Z" title="发表于 2022-10-22 00:00:00">2022-10-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-08-22T07:55:23.509Z" title="更新于 2023-08-22 15:55:23">2023-08-22</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="day10 - static、继承、单例、代码块"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="day11-面向对象进阶"><a href="#day11-面向对象进阶" class="headerlink" title="day11.面向对象进阶"></a>day11.面向对象进阶</h3><h3 id="1-静态关键字：static"><a href="#1-静态关键字：static" class="headerlink" title="1.静态关键字：static"></a>1.静态关键字：static</h3><h4 id="1-1static的作用、修饰成员变量的用法"><a href="#1-1static的作用、修饰成员变量的用法" class="headerlink" title="1.1static的作用、修饰成员变量的用法"></a>1.1static的作用、修饰成员变量的用法</h4><p><strong>static关键字的作用</strong></p>
+<ul>
+<li><p>static是静态的意思，可以修饰成员变量和成员方法。</p>
+</li>
+<li><p>static修饰成员变量表示该成员变量只在内存中只存储一份，可以被共享访问、修改。</p>
+</li>
+</ul>
+<p><strong>成员变量可以分为2类</strong></p>
+<ul>
+<li><p>静态成员变量（有static修饰，属于类，内存中加载一次）: 常表示如在线人数信息、等需要被共享的信息，可以被共享访问。</p>
+</li>
+<li><p>实例成员变量（无static修饰，存在于每个对象中）：常表示姓名name、年龄age、等属于每个对象的信息。</p>
+</li>
+</ul>
+<h4 id="1-2static修饰成员变量的内存原理"><a href="#1-2static修饰成员变量的内存原理" class="headerlink" title="1.2static修饰成员变量的内存原理"></a>1.2static修饰成员变量的内存原理</h4><h4 id="1-3static修饰成员方法的基本用法"><a href="#1-3static修饰成员方法的基本用法" class="headerlink" title="1.3static修饰成员方法的基本用法"></a>1.3static修饰成员方法的基本用法</h4><p><strong>成员方法的分类：</strong></p>
+<ul>
+<li><p>静态成员方法（有static修饰，属于类），建议用类名访问，也可以用对象访问。</p>
+<p><strong>类名.静态成员方法。</strong></p>
+<p><strong>对象.静态成员方法。（不推荐）</strong></p>
+</li>
+<li><p>实例成员方法（无static修饰，属于对象），只能用对象触发访问。</p>
+<p><strong>对象.实例成员方法。</strong></p>
+</li>
+</ul>
+<p><strong>使用场景</strong></p>
+<ul>
+<li><p>表示对象自己的行为的，且方法中需要访问实例成员的，则该方法必须申明成实例方法。</p>
+</li>
+<li><p>如果该方法是以执行一个共用功能为目的，则可以申明成静态方法。</p>
+</li>
+</ul>
+<p><strong>定义员工类的实例</strong></p>
+<p>需求：请完成一个标准实体类的设计，并提供如下要求实现。</p>
+<p>①：某公司的员工信息系统中，需要定义一个公司的员工类Employee，包含如下信息（name, age , 所在部门名称dept ） , 定义一个静态的成员变量company记录公司的名称。</p>
+<p>②：需要在Employee类中定义一个方法showInfos()，用于输出当前员工对象的信息。如name, age ，dept 以及公司名称company的信息。</p>
+<p>③：需要在Employee类中定义定义一个通用的静态方法compareByAge，用于传输两个员工对象的年龄进入，并返回比较较大的年龄，例如：2个人中的最大年龄是:45岁。</p>
+<h4 id="1-4static修饰成员方法的内存原理"><a href="#1-4static修饰成员方法的内存原理" class="headerlink" title="1.4static修饰成员方法的内存原理"></a>1.4static修饰成员方法的内存原理</h4><h4 id="1-5static实际应用案例：设计工具类"><a href="#1-5static实际应用案例：设计工具类" class="headerlink" title="1.5static实际应用案例：设计工具类"></a>1.5static实际应用案例：设计工具类</h4><p><strong>工具类：</strong></p>
+<ul>
+<li>工具类中定义的都是一些静态方法，每个方法都是以完成一个共用的功能为目的。</li>
+</ul>
+<p><strong>现状问题分析：</strong></p>
+<ul>
+<li>如果登录和注册等多处地方都存在验证码逻辑，就会导致同一个功能多处开发，会出现代码重复度过高。</li>
+</ul>
+<p><strong>工具类的好处</strong></p>
+<ul>
+<li>一是调用方便，二是提高了代码复用（一次编写，处处可用）</li>
+</ul>
+<p><strong>为什么工具类中的方法不用实例方法做？</strong></p>
+<ul>
+<li>实例方法需要创建对象调用，此时用对象只是为了调用方法，这样只会浪费内存。</li>
+</ul>
+<p><strong>工具类的定义注意</strong></p>
+<ul>
+<li><p>建议将<strong>工具类的构造器进行私有，工具类无需创建对象</strong>。</p>
+</li>
+<li><p>里面都是静态方法，直接用类名访问即可。</p>
+</li>
+</ul>
+<h4 id="1-6static的注意事项总结-面试热点"><a href="#1-6static的注意事项总结-面试热点" class="headerlink" title="1.6static的注意事项总结[面试热点]"></a>1.6static的注意事项总结[面试热点]</h4><p><strong>static访问注意实现：</strong></p>
+<ul>
+<li><p>静态方法只能访问静态的成员，不可以直接访问实例成员。</p>
+</li>
+<li><p>实例方法可以访问静态的成员，也可以访问实例成员。</p>
+</li>
+<li><p>静态方法中是不可以出现this关键字的。</p>
+</li>
+</ul>
+<hr>
+<hr>
+<h3 id="2-static应用知识：代码块"><a href="#2-static应用知识：代码块" class="headerlink" title="2.static应用知识：代码块"></a>2.static应用知识：代码块</h3><h4 id="2-1代码块的分类、作用"><a href="#2-1代码块的分类、作用" class="headerlink" title="2.1代码块的分类、作用"></a>2.1代码块的分类、作用</h4><p><strong>代码块概述</strong></p>
+<ul>
+<li><p>代码块是类的5大成分之一（成员变量、构造器，方法，代码块，内部类），定义在类中方法外。</p>
+</li>
+<li><p>在Java类下，使用 { } 括起来的代码被称为代码块 。</p>
+</li>
+</ul>
+<p><strong>代码块分为</strong></p>
+<ul>
+<li><p><strong>静态代码块</strong>:</p>
+<ul>
+<li><strong>格式</strong>：static{}</li>
+<li><strong>特点</strong>：需要通过static关键字修饰，随着类的加载而加载，并且自动触发、只执行一次</li>
+<li><strong>使用场景</strong>：在类加载的时候做一些静态数据初始化的操作，以便后续使用。</li>
+</ul>
+</li>
+<li><p><strong>构造代码块</strong>（<strong>了解，用的少</strong>）：</p>
+<ul>
+<li><strong>格式</strong>：{}</li>
+<li><strong>特点</strong>：每次创建对象，调用构造器执行时，都会执行该代码块中的代码，并且在构造器执行前执行</li>
+<li><strong>使用场景</strong>：初始化实例资源。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-2静态代码块的应用案例"><a href="#2-2静态代码块的应用案例" class="headerlink" title="2.2静态代码块的应用案例"></a>2.2静态代码块的应用案例</h4><p><strong>斗地主游戏</strong></p>
+<p><strong>需求：</strong><br> 在启动游戏房间的时候，应该提前准备好54张牌，后续才可以直接使用这些牌数据。</p>
+<p><strong>分析：</strong></p>
+<p>①该房间只需要一副牌。</p>
+<p>②定义一个静态的ArrayList集合存储54张牌对象，静态的集合只会加载一份。</p>
+<p>③在启动游戏房间前，应该将54张牌初始化好</p>
+<p>④当系统启动的同时需要准备好54张牌数据，此时可以用静态代码块完成。</p>
+<hr>
+<hr>
+<h3 id="3-static应用知识：单例"><a href="#3-static应用知识：单例" class="headerlink" title="3.static应用知识：单例"></a>3.static应用知识：单例</h3><h4 id="3-1设计模式、单例模式介绍、饿汉单例模式"><a href="#3-1设计模式、单例模式介绍、饿汉单例模式" class="headerlink" title="3.1设计模式、单例模式介绍、饿汉单例模式"></a>3.1设计模式、单例模式介绍、饿汉单例模式</h4><p><strong>什么是设计模式（Design pattern）</strong></p>
+<ul>
+<li><p>开发中经常遇到一些问题，一个问题通常有n种解法的，但其中肯定有一种解法是最优的，这个最优的解法被人总结出来了，称之为设计模式。</p>
+</li>
+<li><p>设计模式有20多种，对应20多种软件开发中会遇到的问题，学设计模式主要是学2点：</p>
+<ul>
+<li>第一：这种模式用来解决什么问题。</li>
+<li>第二：遇到这种问题了，该模式是怎么写的，他是如何解决这个问题的。</li>
+</ul>
+</li>
+</ul>
+<p><strong>单例模式</strong></p>
+<ul>
+<li><p>可以保证系统中，应用该模式的这个类永远只有一个实例，即一个类永远只能创建一个对象。</p>
+</li>
+<li><p>例如任务管理器对象我们只需要一个就可以解决问题了，这样可以节省内存空间。</p>
+</li>
+</ul>
+<p><strong>单例的实现方式很多</strong></p>
+<ul>
+<li><p>饿汉单例模式。</p>
+</li>
+<li><p>懒汉单例模式。</p>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+<p><strong>饿汉单例设计模式</strong></p>
+<ul>
+<li>在用类获取对象的时候，对象已经提前为你创建好了。</li>
+</ul>
+<p><strong>设计步骤：</strong></p>
+<ul>
+<li><p>定义一个类，把构造器私有。</p>
+</li>
+<li><p>定义一个静态变量存储一个对象。</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** a、定义一个单例类 */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SingleInstance</span> &#123;    </span><br><span class="line"><span class="comment">/** c.定义一个静态变量存储一个对象即可 :属于类，与类一起加载一次 */</span>  <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">SingleInstance</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SingleInstance</span> ();    </span><br><span class="line"></span><br><span class="line"><span class="comment">/** b.单例必须私有构造器*/</span>   </span><br><span class="line"><span class="keyword">private</span> <span class="title function_">SingleInstance</span> <span class="params">()</span>&#123;        </span><br><span class="line">System.out.println(<span class="string">&quot;创建了一个对象&quot;</span>);   </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2懒汉单例模式"><a href="#3-2懒汉单例模式" class="headerlink" title="3.2懒汉单例模式"></a>3.2懒汉单例模式</h4><p><strong>懒汉单例设计模式</strong></p>
+<ul>
+<li>在真正需要该对象的时候，才去创建一个对象(延迟加载对象)。</li>
+</ul>
+<p><strong>设计步骤：</strong></p>
+<ul>
+<li><p>定义一个类，把构造器私有。</p>
+</li>
+<li><p>定义一个静态变量存储一个对象。</p>
+</li>
+<li><p>提供一个返回单例对象的方法</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** 定义一个单例类 */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SingleInstance</span>&#123;</span><br><span class="line"><span class="comment">/** 定义一个静态变量存储一个对象即可 :属于类，与类一起加载一次 */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> SingleInstance instance ; <span class="comment">// null</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/** 单例必须私有构造器*/</span></span><br><span class="line"><span class="keyword">private</span> <span class="title function_">SingleInstance</span><span class="params">()</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 必须提供一个方法返回一个单例对象  */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> SingleInstance <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">return</span> ...;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<hr>
+<h3 id="4-面向对象三大特征之二：继承"><a href="#4-面向对象三大特征之二：继承" class="headerlink" title="4.面向对象三大特征之二：继承"></a>4.面向对象三大特征之二：继承</h3><h4 id="4-1继承概述、使用继承的好处"><a href="#4-1继承概述、使用继承的好处" class="headerlink" title="4.1继承概述、使用继承的好处"></a>4.1继承概述、使用继承的好处</h4><p><strong>什么是继承？</strong></p>
+<ul>
+<li>Java中提供一个关键字extends，用这个关键字，我们可以让一个类和另一个类建立起父子关系。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Student</span> <span class="keyword">extends</span> <span class="title class_">People</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Student称为子类（派生类），People称为父类(基类 或超类)。</li>
+</ul>
+<p><strong>使用继承的好处</strong></p>
+<ul>
+<li>当子类继承父类后，就可以直接使用父类公共的属性和方法了。因此，用好这个技术可以很好的我们提高代码的复用性</li>
+</ul>
+<p><strong>继承的格式</strong></p>
+<ul>
+<li><strong>子类 extends父类</strong></li>
+</ul>
+<p><strong>继承后子类的特点</strong></p>
+<ul>
+<li><p><strong>子类 继承父类，子类可以得到父类的属性和行为，子类可以使用。</strong></p>
+</li>
+<li><p><strong>Java中子类更强大</strong></p>
+</li>
+</ul>
+<h4 id="4-2继承的设计规范、内存运行原理"><a href="#4-2继承的设计规范、内存运行原理" class="headerlink" title="4.2继承的设计规范、内存运行原理"></a>4.2继承的设计规范、内存运行原理</h4><p><strong>继承设计规范：</strong></p>
+<ul>
+<li>子类们相同特征（共性属性，共性方法）放在父类中定义</li>
+<li>子类独有的的属性和行为应该定义在子类自己里面。</li>
+</ul>
+<p><strong>为什么？</strong> </p>
+<ul>
+<li>如果子类的独有属性、行为定义在父类中，会导致其它子类也会得到这些属性和行为，这不符合面向对象逻辑。</li>
+</ul>
+<h4 id="4-3继承的特点"><a href="#4-3继承的特点" class="headerlink" title="4.3继承的特点"></a>4.3继承的特点</h4><p><strong>继承的特点</strong></p>
+<p>​	①子类可以继承父类的属性和行为，但是子类不能继承父类的构造器。</p>
+<p>​	②Java是单继承模式：一个类只能继承一个直接父类。</p>
+<p>​	③Java不支持多继承、但是支持多层继承。</p>
+<p>​	④Java中所有的类都是Object类的子类。</p>
+<p><strong>1、子类是否可以继承父类的构造器？</strong></p>
+<ul>
+<li>不可以的，子类有自己的构造器，父类构造器用于初始化父类对象。</li>
+</ul>
+<p><strong>2、子类是否可以继承父类的私有成员？</strong></p>
+<ul>
+<li>可以的，只是不能直接访问。</li>
+</ul>
+<p><strong>3、子类是否可以继承父类的静态成员？</strong></p>
+<ul>
+<li><p>有争议的知识点。</p>
+</li>
+<li><p>子类可以直接使用父类的静态成员（共享）</p>
+</li>
+<li><p>但个人认为：子类不能继承父类的静态成员。（共享并非继承）</p>
+</li>
+</ul>
+<p><strong>注意：Java只支持单继承，不支持多继承。</strong></p>
+<ul>
+<li><strong>单继承：子类只能继承一个直接父类</strong></li>
+<li><strong>不支持多继承：子类不能同时继承多个父类</strong></li>
+</ul>
+<p><strong>Java支持多层继承</strong></p>
+<ul>
+<li>子类 A 继承父类 B ，父类B 可以 继承父类 C</li>
+</ul>
+<p><strong>Object特点：</strong></p>
+<ul>
+<li>Java中所有类，要么直接继承了Object , 要么默认继承了Object , 要么间接继承了Object, Object是祖宗类。</li>
+</ul>
+<h4 id="4-4继承后：成员变量、成员方法的访问特点"><a href="#4-4继承后：成员变量、成员方法的访问特点" class="headerlink" title="4.4继承后：成员变量、成员方法的访问特点"></a>4.4继承后：成员变量、成员方法的访问特点</h4><p><strong>在子类方法中访问成员（成员变量、成员方法）满足：就近原则</strong></p>
+<ul>
+<li><p>先子类局部范围找</p>
+</li>
+<li><p>然后子类成员范围找</p>
+</li>
+<li><p>然后父类成员范围找，如果父类范围还没有找到则报错。</p>
+</li>
+</ul>
+<p><strong>如果子父类中，出现了重名的成员，会优先使用子类的，此时如果一定要在子类中使用父类的怎么办？</strong></p>
+<ul>
+<li><p>可以通过super关键字，指定访问父类的成员。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">格式：<span class="built_in">super</span>.父类成员变量/父类成员方法</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="4-5继承后：方法重写"><a href="#4-5继承后：方法重写" class="headerlink" title="4.5继承后：方法重写"></a>4.5继承后：方法重写</h4><p><strong>什么是方法重写？</strong></p>
+<ul>
+<li>在继承体系中，子类出现了和父类中一模一样的方法声明，我们就称子类这个方法是重写的方法。</li>
+</ul>
+<p><strong>方法重写的应用场景</strong></p>
+<ul>
+<li><p>当子类需要父类的功能，但父类的该功能不完全满足自己的需求时。</p>
+</li>
+<li><p>子类可以重写父类中的方法。</p>
+</li>
+</ul>
+<p><strong>案例演示：</strong></p>
+<ul>
+<li><p>旧手机的功能只能是基本的打电话，发信息</p>
+</li>
+<li><p>新手机的功能需要能够：基本的打电话下支持视频通话。基本的发信息下支持发送语音和图片。</p>
+</li>
+</ul>
+<p><strong>@Override重写注解</strong></p>
+<ul>
+<li><p>@Override是放在重写后的方法上，作为重写是否正确的校验注解。</p>
+</li>
+<li><p>加上该注解后如果重写错误，编译阶段会出现错误提示。</p>
+</li>
+<li><p>建议重写方法都加@Override注解，代码安全，优雅！</p>
+</li>
+</ul>
+<p><strong>方法重写注意事项和要求</strong></p>
+<ul>
+<li><p>重写方法的名称、形参列表必须与被重写方法的名称和参数列表一致。</p>
+</li>
+<li><p>私有方法不能被重写。</p>
+</li>
+<li><p>子类重写父类方法时，访问权限必须大于或者等于父类 </p>
+<p>（暂时了解 ：缺省 &lt; protected &lt; public）</p>
+</li>
+<li><p>子类不能重写父类的静态方法，如果重写会报错的。</p>
+</li>
+</ul>
+<h4 id="4-6继承后：子类构造器的特点"><a href="#4-6继承后：子类构造器的特点" class="headerlink" title="4.6继承后：子类构造器的特点"></a>4.6继承后：子类构造器的特点</h4><p><strong>子类继承父类后构造器的特点：</strong></p>
+<ul>
+<li>子类中所有的构造器默认都会先访问父类中无参的构造器，再执行自己。</li>
+</ul>
+<p><strong>为什么？</strong></p>
+<ul>
+<li><p>子类在初始化的时候，有可能会使用到父类中的数据，如果父类没有完成初始化，子类将无法使用父类的数据。</p>
+</li>
+<li><p>子类初始化之前，一定要调用父类构造器先完成父类数据空间的初始化。</p>
+</li>
+</ul>
+<p><strong>怎么调用父类构造器的？</strong></p>
+<ul>
+<li>子类构造器的第一行语句默认都是：<strong>super()，不写也存在。</strong></li>
+</ul>
+<h4 id="4-7继承后：子类构造器访问父类有参构造器"><a href="#4-7继承后：子类构造器访问父类有参构造器" class="headerlink" title="4.7继承后：子类构造器访问父类有参构造器"></a>4.7继承后：子类构造器访问父类有参构造器</h4><p><strong>super调用父类有参数构造器的作用：</strong></p>
+<ul>
+<li>初始化继承自父类的数据。</li>
+</ul>
+<p><strong>如果父类中没有无参数构造器，只有有参构造器，会出现什么现象呢？</strong></p>
+<ul>
+<li>会报错。因为子类默认是调用父类无参构造器的。</li>
+</ul>
+<p><strong>如何解决？</strong></p>
+<ul>
+<li>子类构造器中可以通过书写 super(…)，手动调用父类的有参数构造器</li>
+</ul>
+<h4 id="4-8this、super使用总结"><a href="#4-8this、super使用总结" class="headerlink" title="4.8this、super使用总结"></a>4.8this、super使用总结</h4><p><strong>this和super详情</strong></p>
+<ul>
+<li><strong>this</strong>：代表本类对象的引用；<strong>super</strong>：代表父类存储空间的标识。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">关键字</th>
+<th align="center"><strong>访问成员变量</strong></th>
+<th align="center"><strong>访问成员方法</strong></th>
+<th align="center">访问构造方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>this</strong></td>
+<td align="center">this.成员变量  访问本类成员变量</td>
+<td align="center">this.成员方法(…)  访问本类成员方法</td>
+<td align="center">this(…)  访问本类构器</td>
+</tr>
+<tr>
+<td align="center"><strong>super</strong></td>
+<td align="center">super.成员变量  访问父类成员变量</td>
+<td align="center">super.成员方法(…)  访问父类成员方法</td>
+<td align="center">super(…)  访问父类构造器</td>
+</tr>
+</tbody></table>
+<p><strong>实际上，在以上的总结中，唯独只有this调用本类其他构造器我们是没有接触过的。</strong></p>
+<p><strong>案例需求：</strong></p>
+<ul>
+<li><p>在学员信息登记系统中，后台创建对象封装数据的时候如果用户没有输入学校，则默认使用“黑马培训中心”。</p>
+</li>
+<li><p>如果用户输入了学校则使用用户输入的学校信息。</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Student</span> &#123;        </span><br><span class="line"><span class="keyword">private</span> String schoolName;</span><br><span class="line"><span class="keyword">private</span> String name;</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Student</span><span class="params">(String name)</span>&#123;</span><br><span class="line">          <span class="built_in">this</span>(name , “黑马培训中心”);	</span><br><span class="line">    &#125;	</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Student</span><span class="params">(String name , String schoolName )</span>&#123;</span><br><span class="line">          <span class="built_in">this</span>.name = name;</span><br><span class="line">          <span class="built_in">this</span>.schoolName = schoolName;</span><br><span class="line">    &#125;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>this(…)和super(…)使用注意点：</strong></p>
+<ul>
+<li><p>子类通过 this (…）去调用本类的其他构造器，本类其他构造器会通过 super 去手动调用父类的构造器，最终还是会调用父类构造器的。</p>
+</li>
+<li><p>注意：this(…) super(…) 都只能放在构造器的第一行，所以二者不能共存在同一个构造器中。</p>
+</li>
+</ul>
+<p>继承后的真实类型</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">instanceof</span></span><br><span class="line"></span><br><span class="line"> <span class="title function_">if</span> <span class="params">(u <span class="keyword">instanceof</span> Customer)</span>&#123;  <span class="comment">//u:父类对象  Customer：子类</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://Liooser.github.io">Liooser</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://liooser.github.io/post/b149836c.html">https://liooser.github.io/post/b149836c.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://Liooser.github.io" target="_blank">Liooser's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/java-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%BF%9B%E9%98%B6-static%EF%BC%8C%E5%8D%95%E4%BE%8B%EF%BC%8C%E4%BB%A3%E7%A0%81%E5%9D%97%EF%BC%8C%E7%BB%A7%E6%89%BF/">java,面向对象进阶,static，单例，代码块，继承</a></div><div class="post_share"><div class="social-share" data-image="https://raw.githubusercontent.com/Liooser/Liooser.github.io/main/images/index/top_1.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/post/383d7cb7.html"><img class="prev-cover" src="https://raw.githubusercontent.com/Liooser/Liooser.github.io/main/images/index/top_1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">day11 - 包、权限修饰符、final、常量、枚举、抽象类、接口</div></div></a></div><div class="next-post pull-right"><a href="/post/bb5ff40.html"><img class="next-cover" src="https://raw.githubusercontent.com/Liooser/Liooser.github.io/main/images/index/top_1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">day09 - API</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://raw.githubusercontent.com/Liooser/Liooser.github.io/main/images/index/5.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Liooser</div><div class="author-info__description">潮落之后是潮起</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://haiyong.site/moyu/"><i class="iconfont icon-youxishoubing"></i><span>摸鱼</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><b><font color="#e66b6d">双</font> <font color="#e66d98">手</font> <font color="#e66cc6">合</font> <font color="#cc6de6">十</font> <font color="#9770e6">成</font> <font color="#6d93e6">为</font> <font color="#6fcde6">自</font> <font color="#72e6b6">己</font> <font color="#72e689">的</font> <font color="#99e670">神</font>, <font color="#cde670">自</font> <font color="#e6df72">己</font> <font color="#e6c073">所</font> <font color="#e6a271">信</font> <font color="#e6796f">念</font> <font color="#e65454">的</font> <font color="#e63333">即</font> <font color="#e62c2c">是</font> <font color="#e60101">信</font> <font color="#e60101">仰</font></b> <p align="center"><img src="https://haiyong.site/img/img-blog.csdnimg.cn/f7384c88956d4378b72e47548e19c9f8.gif" width="50" alt="mao"></p></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#day11-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%BF%9B%E9%98%B6"><span class="toc-number">1.</span> <span class="toc-text">day11.面向对象进阶</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%9D%99%E6%80%81%E5%85%B3%E9%94%AE%E5%AD%97%EF%BC%9Astatic"><span class="toc-number">2.</span> <span class="toc-text">1.静态关键字：static</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1static%E7%9A%84%E4%BD%9C%E7%94%A8%E3%80%81%E4%BF%AE%E9%A5%B0%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E7%9A%84%E7%94%A8%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text">1.1static的作用、修饰成员变量的用法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2static%E4%BF%AE%E9%A5%B0%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E7%9A%84%E5%86%85%E5%AD%98%E5%8E%9F%E7%90%86"><span class="toc-number">2.2.</span> <span class="toc-text">1.2static修饰成员变量的内存原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3static%E4%BF%AE%E9%A5%B0%E6%88%90%E5%91%98%E6%96%B9%E6%B3%95%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95"><span class="toc-number">2.3.</span> <span class="toc-text">1.3static修饰成员方法的基本用法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4static%E4%BF%AE%E9%A5%B0%E6%88%90%E5%91%98%E6%96%B9%E6%B3%95%E7%9A%84%E5%86%85%E5%AD%98%E5%8E%9F%E7%90%86"><span class="toc-number">2.4.</span> <span class="toc-text">1.4static修饰成员方法的内存原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5static%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8%E6%A1%88%E4%BE%8B%EF%BC%9A%E8%AE%BE%E8%AE%A1%E5%B7%A5%E5%85%B7%E7%B1%BB"><span class="toc-number">2.5.</span> <span class="toc-text">1.5static实际应用案例：设计工具类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-6static%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9%E6%80%BB%E7%BB%93-%E9%9D%A2%E8%AF%95%E7%83%AD%E7%82%B9"><span class="toc-number">2.6.</span> <span class="toc-text">1.6static的注意事项总结[面试热点]</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-static%E5%BA%94%E7%94%A8%E7%9F%A5%E8%AF%86%EF%BC%9A%E4%BB%A3%E7%A0%81%E5%9D%97"><span class="toc-number">3.</span> <span class="toc-text">2.static应用知识：代码块</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1%E4%BB%A3%E7%A0%81%E5%9D%97%E7%9A%84%E5%88%86%E7%B1%BB%E3%80%81%E4%BD%9C%E7%94%A8"><span class="toc-number">3.1.</span> <span class="toc-text">2.1代码块的分类、作用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E7%9A%84%E5%BA%94%E7%94%A8%E6%A1%88%E4%BE%8B"><span class="toc-number">3.2.</span> <span class="toc-text">2.2静态代码块的应用案例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-static%E5%BA%94%E7%94%A8%E7%9F%A5%E8%AF%86%EF%BC%9A%E5%8D%95%E4%BE%8B"><span class="toc-number">4.</span> <span class="toc-text">3.static应用知识：单例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E3%80%81%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E4%BB%8B%E7%BB%8D%E3%80%81%E9%A5%BF%E6%B1%89%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="toc-number">4.1.</span> <span class="toc-text">3.1设计模式、单例模式介绍、饿汉单例模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2%E6%87%92%E6%B1%89%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="toc-number">4.2.</span> <span class="toc-text">3.2懒汉单例模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%89%E5%A4%A7%E7%89%B9%E5%BE%81%E4%B9%8B%E4%BA%8C%EF%BC%9A%E7%BB%A7%E6%89%BF"><span class="toc-number">5.</span> <span class="toc-text">4.面向对象三大特征之二：继承</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1%E7%BB%A7%E6%89%BF%E6%A6%82%E8%BF%B0%E3%80%81%E4%BD%BF%E7%94%A8%E7%BB%A7%E6%89%BF%E7%9A%84%E5%A5%BD%E5%A4%84"><span class="toc-number">5.1.</span> <span class="toc-text">4.1继承概述、使用继承的好处</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2%E7%BB%A7%E6%89%BF%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83%E3%80%81%E5%86%85%E5%AD%98%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86"><span class="toc-number">5.2.</span> <span class="toc-text">4.2继承的设计规范、内存运行原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3%E7%BB%A7%E6%89%BF%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">5.3.</span> <span class="toc-text">4.3继承的特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-4%E7%BB%A7%E6%89%BF%E5%90%8E%EF%BC%9A%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E3%80%81%E6%88%90%E5%91%98%E6%96%B9%E6%B3%95%E7%9A%84%E8%AE%BF%E9%97%AE%E7%89%B9%E7%82%B9"><span class="toc-number">5.4.</span> <span class="toc-text">4.4继承后：成员变量、成员方法的访问特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-5%E7%BB%A7%E6%89%BF%E5%90%8E%EF%BC%9A%E6%96%B9%E6%B3%95%E9%87%8D%E5%86%99"><span class="toc-number">5.5.</span> <span class="toc-text">4.5继承后：方法重写</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-6%E7%BB%A7%E6%89%BF%E5%90%8E%EF%BC%9A%E5%AD%90%E7%B1%BB%E6%9E%84%E9%80%A0%E5%99%A8%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">5.6.</span> <span class="toc-text">4.6继承后：子类构造器的特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-7%E7%BB%A7%E6%89%BF%E5%90%8E%EF%BC%9A%E5%AD%90%E7%B1%BB%E6%9E%84%E9%80%A0%E5%99%A8%E8%AE%BF%E9%97%AE%E7%88%B6%E7%B1%BB%E6%9C%89%E5%8F%82%E6%9E%84%E9%80%A0%E5%99%A8"><span class="toc-number">5.7.</span> <span class="toc-text">4.7继承后：子类构造器访问父类有参构造器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-8this%E3%80%81super%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93"><span class="toc-number">5.8.</span> <span class="toc-text">4.8this、super使用总结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/2f2fc17e.html" title="day23 - XML、xml解析、工厂模式、装饰模式"><img src="https://raw.githubusercontent.com/Liooser/Liooser.github.io/main/images/index/top_1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="day23 - XML、xml解析、工厂模式、装饰模式"/></a><div class="content"><a class="title" href="/post/2f2fc17e.html" title="day23 - XML、xml解析、工厂模式、装饰模式">day23 - XML、xml解析、工厂模式、装饰模式</a><time datetime="2022-11-04T16:00:00.000Z" title="发表于 2022-11-05 00:00:00">2022-11-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/a44e5d86.html" title="day22 - 单元测试、反射、注解、动态代理"><img src="https://raw.githubusercontent.com/Liooser/Liooser.github.io/main/images/index/top_1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="day22 - 单元测试、反射、注解、动态代理"/></a><div class="content"><a class="title" href="/post/a44e5d86.html" title="day22 - 单元测试、反射、注解、动态代理">day22 - 单元测试、反射、注解、动态代理</a><time datetime="2022-11-03T16:00:00.000Z" title="发表于 2022-11-04 00:00:00">2022-11-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/9d3e5e46.html" title="day21 - 网络编程"><img src="https://raw.githubusercontent.com/Liooser/Liooser.github.io/main/images/index/top_1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="day21 - 网络编程"/></a><div class="content"><a class="title" href="/post/9d3e5e46.html" title="day21 - 网络编程">day21 - 网络编程</a><time datetime="2022-11-01T16:00:00.000Z" title="发表于 2022-11-02 00:00:00">2022-11-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/c880ece8.html" title="day20 - 多线程"><img src="https://raw.githubusercontent.com/Liooser/Liooser.github.io/main/images/index/top_1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="day20 - 多线程"/></a><div class="content"><a class="title" href="/post/c880ece8.html" title="day20 - 多线程">day20 - 多线程</a><time datetime="2022-10-31T16:00:00.000Z" title="发表于 2022-11-01 00:00:00">2022-11-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/c0dc36c0.html" title="day19 - Io二"><img src="https://raw.githubusercontent.com/Liooser/Liooser.github.io/main/images/index/top_1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="day19 - Io二"/></a><div class="content"><a class="title" href="/post/c0dc36c0.html" title="day19 - Io二">day19 - Io二</a><time datetime="2022-10-30T16:00:00.000Z" title="发表于 2022-10-31 00:00:00">2022-10-31</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Liooser</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat_btn" type="button" title="聊天"><i class="fas fa-sms"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="富强,民主,文明,和谐,自由,平等,公正,法治,爱国,敬业,诚信,友善" data-fontsize="15px" data-random="true" async="async"></script><script>(function(d, w, c) {
+    w.ChatraID = 'SYuwBgxFrsHfNGEue';
+    var s = d.createElement('script');
+    w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+    };
+    s.async = true;
+    s.src = 'https://call.chatra.io/chatra.js';
+    if (d.head) d.head.appendChild(s);
+})(document, window, 'Chatra');
+
+if (true) {
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      Chatra('openChat')
+    });
+  }
+  chatBtnFn()
+} else {
+  if (true) {
+    function chatBtnHide () {
+      Chatra('hide')
+    }
+    function chatBtnShow () {
+      Chatra('show')
+    }
+  }
+}</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var qweather_key = 'b16a1fa0e63c46a4b8f28abfb06ae3fe';
+  var gaud_map_key = 'e2b04289e870b005374ee030148d64fd&s=rsv3';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '112.982279,28.19409';
+  var clock_default_rectangle_enable = 'false';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><!-- hexo injector body_end end --></body></html>
