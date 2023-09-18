@@ -751,9 +751,9 @@
     
     
     <entry>
-      <title>关于</title>
-      <link href="/about/index.html"/>
-      <url>/about/index.html</url>
+      <title>分类</title>
+      <link href="/categories/index.html"/>
+      <url>/categories/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
@@ -762,9 +762,9 @@
     
     
     <entry>
-      <title>分类</title>
-      <link href="/categories/index.html"/>
-      <url>/categories/index.html</url>
+      <title>关于</title>
+      <link href="/about/index.html"/>
+      <url>/about/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
@@ -784,9 +784,9 @@
     
     
     <entry>
-      <title>留言板</title>
-      <link href="/messageboard/index.html"/>
-      <url>/messageboard/index.html</url>
+      <title>myself</title>
+      <link href="/myself/index.html"/>
+      <url>/myself/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
@@ -795,9 +795,9 @@
     
     
     <entry>
-      <title>myself</title>
-      <link href="/myself/index.html"/>
-      <url>/myself/index.html</url>
+      <title>留言板</title>
+      <link href="/messageboard/index.html"/>
+      <url>/messageboard/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
